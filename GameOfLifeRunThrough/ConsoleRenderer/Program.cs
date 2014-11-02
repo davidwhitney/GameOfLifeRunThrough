@@ -7,8 +7,8 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
-            var xSize = 100;
-            var ySize = 40;
+            var xSize = 130;
+            var ySize = 50;
 
             Console.SetWindowSize(150, 60);
 
@@ -40,7 +40,7 @@ namespace ConsoleRenderer
                 }
 
                 Console.WriteLine("Generation: " + game.Generation);
-                Thread.Sleep(new TimeSpan(0, 0, 0, 0, 100));
+                //Thread.Sleep(new TimeSpan(0, 0, 0, 0, 100));
                 
                 game.Step();
                 Console.SetCursorPosition(0,0);
