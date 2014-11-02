@@ -4,7 +4,7 @@ namespace ConsoleRenderer.Tests
     {
         public bool Called { get; set; }
         
-        public State Evaluate(Location cellToEvaluate, GameBoard board)
+        public State Evaluate(Location cellLocation, GameBoard board)
         {
             Called = true;
             return State.Alive;

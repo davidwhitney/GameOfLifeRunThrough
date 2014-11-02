@@ -2,6 +2,6 @@
 {
     public interface IRule
     {
-        State Evaluate(Location cellToEvaluate, GameBoard board);
+        State Evaluate(Location cellLocation, GameBoard board);
     }
 }

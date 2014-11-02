@@ -7,7 +7,7 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
-            var game = new GameState(20, 20, new GameOfLifeRule());
+            var game = new GameState(50, 20, new GameOfLifeRule());
             game.Populate();
 
             /*game.GameBoard[0][2].State = State.Alive;
@@ -16,8 +16,7 @@ namespace ConsoleRenderer
             game.GameBoard[2][1].State = State.Alive;
             game.GameBoard[1][0].State = State.Alive;*/
 
-
-            for (var generation = 0; generation <= 50; generation++)
+            while(true)
             {
                 foreach (var row in game.GameBoard)
                 {
@@ -35,18 +34,12 @@ namespace ConsoleRenderer
                     Console.Write(Environment.NewLine);
                 }
 
-                Console.WriteLine("Generation: " + generation);
-                Thread.Sleep(new TimeSpan(0, 0, 0, 1));
-                
-                if (generation <= 50)
-                {
-                    game.Step();
-                    Console.Clear();
-                }
-            }
+                Console.WriteLine("Generation: " + game.Generation);
+                Thread.Sleep(new TimeSpan(0, 0, 0, 0, 100));
 
-            Console.WriteLine("Game over");
-            Console.ReadLine();
+                game.Step();
+                Console.Clear();
+            }
         }
     }
 }

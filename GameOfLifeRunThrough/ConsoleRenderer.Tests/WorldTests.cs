@@ -50,5 +50,16 @@ namespace ConsoleRenderer.Tests
 
             Assert.That(fakeRule.Called, Is.True);
         }
+
+        [Test]
+        public void Step_IncrementsGeneration()
+        {
+            var fakeRule = new FakeRule();
+            var world = new GameState(1, 1, fakeRule);
+
+            world.Step();
+
+            Assert.That(world.Generation, Is.EqualTo(1));
+        }
     }
 }

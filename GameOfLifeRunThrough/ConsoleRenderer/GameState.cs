@@ -6,7 +6,9 @@ namespace ConsoleRenderer
     public class GameState
     {
         private readonly IRule _rule;
+
         public GameBoard GameBoard { get; private set; }
+        public int Generation { get; private set; }
 
         public GameState(int width, int height, IRule rule)
         {
@@ -36,6 +38,8 @@ namespace ConsoleRenderer
             {
                 GameBoard[state.Key.Y][state.Key.X].State = state.Value;
             }
+
+            Generation++;
         }
 
         public void Populate()

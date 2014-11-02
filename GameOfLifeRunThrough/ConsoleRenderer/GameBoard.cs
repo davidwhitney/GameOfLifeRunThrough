@@ -25,15 +25,15 @@ namespace ConsoleRenderer
             }
         }
 
-        public Tuple<Cell, List<Cell>> GetCellAndNeighbours(int x, int y)
+        public CellAndNeighbours GetCellAndNeighbours(Location loc)
         {
-            var cell = this[y][x];
+            var cell = this[loc.Y][loc.X];
             var neighbours = new List<Cell>();
 
-            var lowerX = x - 1;
-            var lowerY = y - 1;
-            var upperX = x + 1;
-            var upperY = y + 1;
+            var lowerX = loc.X - 1;
+            var lowerY = loc.Y - 1;
+            var upperX = loc.X + 1;
+            var upperY = loc.Y + 1;
 
             if (upperX >= this.First().Count)
             {
@@ -64,9 +64,26 @@ namespace ConsoleRenderer
                 }
             }
 
-            neighbours.RemoveAll(item => item.Location.X == x && item.Location.Y == y);
+            neighbours.RemoveAll(item => item.Location.X == loc.X && item.Location.Y == loc.Y);
 
-            return new Tuple<Cell, List<Cell>>(cell, neighbours);
+            return new CellAndNeighbours(cell, neighbours);
+        }
+
+        public class CellAndNeighbours
+        {
+            public Cell Cell { get; set; }
+            public List<Cell> Neighbours { get; set; }
+
+            public CellAndNeighbours(Cell cell, List<Cell> neighbours)
+            {
+                Cell = cell;
+                Neighbours = neighbours;
+            }
+
+            public int LiveNeighbours
+            {
+                get { return Neighbours.Count(x => x.State == State.Alive); }
+            }
         }
     }
 }

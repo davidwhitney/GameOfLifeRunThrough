@@ -1,43 +1,25 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleRenderer
 {
     public class GameOfLifeRule : IRule
     {
-        public State Evaluate(Location cellToEvaluate, GameBoard board)
+        public State Evaluate(Location cellLocation, GameBoard board)
         {
-            var cellAndNeighbours = board.GetCellAndNeighbours(cellToEvaluate.X, cellToEvaluate.Y);
-            var liveNeighbours = cellAndNeighbours.Item2.Count(x => x.State == State.Alive);
-
-            switch (cellAndNeighbours.Item1.State)
+            var selection = board.GetCellAndNeighbours(cellLocation);
+            var rules = new Dictionary<Func<State, int, bool>, State>
             {
-                case State.Alive:
-                    if (liveNeighbours < 2)
-                    {
-                        return State.DeadOrEmpty;
-                    }
-                    else if (liveNeighbours == 2)
-                    {
-                        return State.Alive;
-                    }
-                    else if (liveNeighbours == 3)
-                    {
-                        return State.Alive;
-                    }
-                    else if (liveNeighbours > 3)
-                    {
-                        return State.DeadOrEmpty;
-                    }
-                    break;
-                case State.DeadOrEmpty:
-                    if (liveNeighbours == 3)
-                    {
-                        return State.Alive;
-                    }
-                    break;
-            }
+                {(state, lnc) => state == State.Alive && lnc < 2, State.DeadOrEmpty},
+                {(state, lnc) => state == State.Alive && lnc > 3, State.DeadOrEmpty},
+                {(state, lnc) => state == State.Alive && (lnc == 2 || lnc == 3), State.Alive},
+                {(state, lnc) => state == State.DeadOrEmpty && lnc == 3, State.Alive},
+                {(state, lnc) => state == State.DeadOrEmpty, State.DeadOrEmpty},
+            };
 
-            return State.DeadOrEmpty;
+            var match = rules.First(x => x.Key(selection.Cell.State, selection.LiveNeighbours));
+            return match.Value;
         }
     }
 }

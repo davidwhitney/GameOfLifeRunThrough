@@ -10,10 +10,10 @@ namespace ConsoleRenderer.Tests
         {
             var gameboard = new GameBoard(3, 3);
 
-            var cellAndNeighbours = gameboard.GetCellAndNeighbours(1, 1);
+            var cellAndNeighbours = gameboard.GetCellAndNeighbours(new Location(1, 1));
 
-            Assert.That(cellAndNeighbours.Item1.Location.X, Is.EqualTo(1));
-            Assert.That(cellAndNeighbours.Item1.Location.Y, Is.EqualTo(1));
+            Assert.That(cellAndNeighbours.Cell.Location.X, Is.EqualTo(1));
+            Assert.That(cellAndNeighbours.Cell.Location.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -21,10 +21,10 @@ namespace ConsoleRenderer.Tests
         {
             var gameboard = new GameBoard(3, 3);
 
-            var cellAndNeighbours = gameboard.GetCellAndNeighbours(1, 1);
+            var cellAndNeighbours = gameboard.GetCellAndNeighbours(new Location(1, 1));
 
-            Assert.That(cellAndNeighbours.Item2.Count, Is.EqualTo(8));
-            CollectionAssert.DoesNotContain(cellAndNeighbours.Item2, gameboard[1][1]);
+            Assert.That(cellAndNeighbours.Neighbours.Count, Is.EqualTo(8));
+            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard[1][1]);
         }
 
         [Test]
@@ -32,10 +32,10 @@ namespace ConsoleRenderer.Tests
         {
             var gameboard = new GameBoard(1, 1);
 
-            var cellAndNeighbours = gameboard.GetCellAndNeighbours(0, 0);
+            var cellAndNeighbours = gameboard.GetCellAndNeighbours(new Location(0, 0));
 
-            Assert.That(cellAndNeighbours.Item2.Count, Is.EqualTo(0));
-            CollectionAssert.DoesNotContain(cellAndNeighbours.Item2, gameboard[0][0]);
+            Assert.That(cellAndNeighbours.Neighbours.Count, Is.EqualTo(0));
+            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard[0][0]);
         }
     }
 }
