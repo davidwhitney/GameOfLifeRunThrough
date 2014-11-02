@@ -8,17 +8,17 @@ namespace ConsoleRenderer
         static void Main(string[] args)
         {
             var game = new GameState(50, 20, new GameOfLifeRule());
-            game.Populate();
+            Populate(game.GameBoard);
 
-            /*game.GameBoard[0][2].State = State.Alive;
-            game.GameBoard[1][2].State = State.Alive;
-            game.GameBoard[2][2].State = State.Alive;
-            game.GameBoard[2][1].State = State.Alive;
-            game.GameBoard[1][0].State = State.Alive;*/
+            //game.GameBoard.SetCellState(2, 0, State.Alive);
+            //game.GameBoard.SetCellState(2, 1, State.Alive);
+            //game.GameBoard.SetCellState(2, 2, State.Alive);
+            //game.GameBoard.SetCellState(1, 2, State.Alive);
+            //game.GameBoard.SetCellState(0, 1, State.Alive);
 
             while(true)
             {
-                foreach (var row in game.GameBoard)
+                foreach (var row in game.GameBoard.Rows)
                 {
                     foreach (var cell in row)
                     {
@@ -39,6 +39,22 @@ namespace ConsoleRenderer
 
                 game.Step();
                 Console.Clear();
+            }
+        }
+
+        public static void Populate(GameBoard board)
+        {
+            var max = board.Width * board.Height;
+            var alive = max / 4;
+
+            var rnd = new Random();
+
+            for (var count = 0; count < alive; count++)
+            {
+                var x = rnd.Next(0, board.Width);
+                var y = rnd.Next(0, board.Height);
+
+                board.SetCellState(new Location(x, y), State.Alive);
             }
         }
     }

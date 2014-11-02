@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ConsoleRenderer
 {
-    public class GameBoard : List<List<Cell>>
+    public class GameBoard
     {
+        private readonly List<List<Cell>> _storage;
+ 
         public int Width { get; private set; }
         public int Height { get; private set; }
 
@@ -13,6 +14,8 @@ namespace ConsoleRenderer
         {
             Width = width;
             Height = height;
+
+            _storage = new List<List<Cell>>();
             for (var y = 0; y < height; y++)
             {
                 var row = new List<Cell>(width);
@@ -21,13 +24,43 @@ namespace ConsoleRenderer
                     row.Add(new Cell(x, y));
                 }
 
-                Add(row);
+                _storage.Add(row);
             }
         }
-
-        public CellAndNeighbours GetCellAndNeighbours(Location loc)
+        
+        public IEnumerable<List<Cell>> Rows
         {
-            var cell = this[loc.Y][loc.X];
+            get { return _storage; }
+        } 
+
+        public IEnumerable<Cell> AllCells
+        {
+            get { return _storage.SelectMany(cells => cells); }
+        } 
+
+        public Cell CellAt(Location loc)
+        {
+            return CellAt(loc.X, loc.Y);
+        }
+
+        public Cell CellAt(int x, int y)
+        {
+            return _storage[y][x];
+        }
+
+        public void SetCellState(Location loc, State state)
+        {
+            CellAt(loc).State = state;
+        }
+
+        public void SetCellState(int x, int y, State state)
+        {
+            CellAt(x, y).State = state;
+        }
+
+        public CellLookup GetCellAndNeighbours(Location loc)
+        {
+            var cell = CellAt(loc);
             var neighbours = new List<Cell>();
 
             var lowerX = loc.X - 1;
@@ -35,9 +68,9 @@ namespace ConsoleRenderer
             var upperX = loc.X + 1;
             var upperY = loc.Y + 1;
 
-            if (upperX >= this.First().Count)
+            if (upperX >= _storage.First().Count)
             {
-                upperX = this.First().Count - 1;
+                upperX = _storage.First().Count - 1;
             }
 
             if (lowerX < 0)
@@ -45,9 +78,9 @@ namespace ConsoleRenderer
                 lowerX = 0;
             }
 
-            if (upperY >= Count)
+            if (upperY >= _storage.Count)
             {
-                upperY = Count - 1;
+                upperY = _storage.Count - 1;
             }
 
             if (lowerY < 0)
@@ -59,31 +92,14 @@ namespace ConsoleRenderer
             {
                 for (var yy = lowerY; yy <= upperY; yy++)
                 {
-                    var nCell = this[yy][xx];
+                    var nCell = CellAt(xx, yy);
                     neighbours.Add(nCell);
                 }
             }
 
             neighbours.RemoveAll(item => item.Location.X == loc.X && item.Location.Y == loc.Y);
 
-            return new CellAndNeighbours(cell, neighbours);
-        }
-
-        public class CellAndNeighbours
-        {
-            public Cell Cell { get; set; }
-            public List<Cell> Neighbours { get; set; }
-
-            public CellAndNeighbours(Cell cell, List<Cell> neighbours)
-            {
-                Cell = cell;
-                Neighbours = neighbours;
-            }
-
-            public int LiveNeighbours
-            {
-                get { return Neighbours.Count(x => x.State == State.Alive); }
-            }
+            return new CellLookup(cell, neighbours);
         }
     }
 }

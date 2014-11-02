@@ -24,7 +24,7 @@ namespace ConsoleRenderer.Tests
             var cellAndNeighbours = gameboard.GetCellAndNeighbours(new Location(1, 1));
 
             Assert.That(cellAndNeighbours.Neighbours.Count, Is.EqualTo(8));
-            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard[1][1]);
+            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard.CellAt(1,1));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace ConsoleRenderer.Tests
             var cellAndNeighbours = gameboard.GetCellAndNeighbours(new Location(0, 0));
 
             Assert.That(cellAndNeighbours.Neighbours.Count, Is.EqualTo(0));
-            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard[0][0]);
+            CollectionAssert.DoesNotContain(cellAndNeighbours.Neighbours, gameboard.CellAt(0, 0));
         }
     }
 }

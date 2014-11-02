@@ -19,8 +19,8 @@ namespace ConsoleRenderer.Tests
         {
             var world = new GameState(4, 5, null);
 
-            Assert.That(world.GameBoard.Count, Is.EqualTo(5));
-            Assert.That(world.GameBoard.First().Count, Is.EqualTo(4));
+            Assert.That(world.GameBoard.Rows.Count(), Is.EqualTo(5));
+            Assert.That(world.GameBoard.Rows.First().Count, Is.EqualTo(4));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace ConsoleRenderer.Tests
         {
             var world = new GameState(1, 1, null);
 
-            Assert.That(world.GameBoard[0][0].State, Is.EqualTo(State.DeadOrEmpty));
+            Assert.That(world.GameBoard.CellAt(0,0).State, Is.EqualTo(State.DeadOrEmpty));
         }
 
         [Test]
@@ -36,8 +36,8 @@ namespace ConsoleRenderer.Tests
         {
             var world = new GameState(1, 2, null);
 
-            Assert.That(world.GameBoard[1][0].Location.X, Is.EqualTo(0));
-            Assert.That(world.GameBoard[1][0].Location.Y, Is.EqualTo(1));
+            Assert.That(world.GameBoard.CellAt(0, 1).Location.X, Is.EqualTo(0));
+            Assert.That(world.GameBoard.CellAt(0, 1).Location.Y, Is.EqualTo(1));
         }
 
         [Test]

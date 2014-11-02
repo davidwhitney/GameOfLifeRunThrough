@@ -18,7 +18,7 @@ namespace ConsoleRenderer.Tests
         [Test]
         public void Evaluate_Alive_LessThanTwoLiveNeighbours_Dies()
         {
-            _gb[1][1].State = State.Alive;
+            _gb.SetCellState(1,1, State.Alive);
 
             var state = _rule.Evaluate(new Location(1, 1), _gb);
 
@@ -28,10 +28,10 @@ namespace ConsoleRenderer.Tests
         [Test]
         public void Evaluate_Alive_TwoLiveNeighbours_Alive()
         {
-            _gb[1][1].State = State.Alive;
-            
-            _gb[0][1].State = State.Alive;
-            _gb[0][2].State = State.Alive;
+            _gb.SetCellState(1, 1, State.Alive);
+
+            _gb.SetCellState(0, 1, State.Alive);
+            _gb.SetCellState(0, 2, State.Alive);
 
             var state = _rule.Evaluate(new Location(1, 1), _gb);
 
@@ -41,11 +41,11 @@ namespace ConsoleRenderer.Tests
         [Test]
         public void Evaluate_Alive_ThreeLiveNeighbours_Alive()
         {
-            _gb[1][1].State = State.Alive;
-            
-            _gb[0][1].State = State.Alive;
-            _gb[0][2].State = State.Alive;
-            _gb[1][2].State = State.Alive;
+            _gb.SetCellState(1, 1, State.Alive);
+
+            _gb.SetCellState(0, 1, State.Alive);
+            _gb.SetCellState(0, 2, State.Alive);
+            _gb.SetCellState(1, 2, State.Alive);
 
             var state = _rule.Evaluate(new Location(1, 1), _gb);
 
@@ -55,12 +55,12 @@ namespace ConsoleRenderer.Tests
         [Test]
         public void Evaluate_Alive_MoreThanThreeLiveNeighbours_Dies()
         {
-            _gb[1][1].State = State.Alive;
-            
-            _gb[0][1].State = State.Alive;
-            _gb[0][2].State = State.Alive;
-            _gb[1][2].State = State.Alive;
-            _gb[0][0].State = State.Alive;
+            _gb.SetCellState(1, 1, State.Alive);
+
+            _gb.SetCellState(0, 1, State.Alive);
+            _gb.SetCellState(0, 2, State.Alive);
+            _gb.SetCellState(1, 2, State.Alive);
+            _gb.SetCellState(0, 0, State.Alive);
 
             var state = _rule.Evaluate(new Location(1, 1), _gb);
 
@@ -70,11 +70,11 @@ namespace ConsoleRenderer.Tests
         [Test]
         public void Evaluate_Dead_ThreeLiveNeighbours_Alive()
         {
-            _gb[1][1].State = State.DeadOrEmpty;
+            _gb.SetCellState(1, 1, State.DeadOrEmpty);
 
-            _gb[0][1].State = State.Alive;
-            _gb[0][2].State = State.Alive;
-            _gb[1][2].State = State.Alive;
+            _gb.SetCellState(0, 1, State.Alive);
+            _gb.SetCellState(0, 2, State.Alive);
+            _gb.SetCellState(1, 2, State.Alive);
 
             var state = _rule.Evaluate(new Location(1, 1), _gb);
 
