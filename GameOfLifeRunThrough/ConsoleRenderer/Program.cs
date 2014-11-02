@@ -7,7 +7,12 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
-            var game = new GameState(50, 20, new GameOfLifeRule());
+            var xSize = 100;
+            var ySize = 40;
+
+            Console.SetWindowSize(150, 60);
+
+            var game = new GameState(xSize, ySize, new GameOfLifeRule());
             Populate(game.GameBoard);
 
             //game.GameBoard.SetCellState(2, 0, State.Alive);
@@ -36,7 +41,7 @@ namespace ConsoleRenderer
 
                 Console.WriteLine("Generation: " + game.Generation);
                 Thread.Sleep(new TimeSpan(0, 0, 0, 0, 100));
-
+                
                 game.Step();
                 Console.SetCursorPosition(0,0);
             }
