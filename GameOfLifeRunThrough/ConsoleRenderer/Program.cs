@@ -38,7 +38,7 @@ namespace ConsoleRenderer
                 Thread.Sleep(new TimeSpan(0, 0, 0, 0, 100));
 
                 game.Step();
-                Console.Clear();
+                Console.SetCursorPosition(0,0);
             }
         }
 
